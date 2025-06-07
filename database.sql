@@ -26,3 +26,11 @@ insert into prato_ingrediente values
 go
 delete from prato
 
+select * from cliente
+select * from ingrediente
+select * from pedido
+select * from pedido_prato
+select * from prato
+select * from prato_ingrediente
+select * from tipo
+

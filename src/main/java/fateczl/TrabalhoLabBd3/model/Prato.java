@@ -24,7 +24,7 @@ public class Prato {
 	private String nome;
 	@Column(name = "tamanho_porcao", nullable = false)
 	private int tamanho_porcao;
-	@Column(name = "valor", precision = 7, scale = 2, nullable = false)
+	@Column(name = "valor", precision = 7, scale = 2, nullable = true)
 	private BigDecimal valor;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

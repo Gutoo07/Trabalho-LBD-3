@@ -17,28 +17,29 @@ public class PratoService {
 		List<Prato> pratos = repPrato.findAll();
 
 		String novoId = "";
-		boolean idUnico = true;
-		
-		if (pratos != null) {
-			do {
-				int random = (int) (Math.random() * 10000);
-				novoId = "P"+random;
-				System.out.println("Novo prato #"+novoId);
-				for (Prato p : pratos) {
-					System.out.println("Prato existente #"+p.getId());
-					if (p.getId().equals(novoId)) {
-						System.out.println("==========ID EXISTENTE============");
-						idUnico = false;
-						break;
+		boolean idUnico;
+		for (int i = 0; i < 10; i++) {
+			if (pratos != null) {
+				do {
+					idUnico = true;
+					int random = (int) (Math.random() * 10000);
+					novoId = "P"+random;
+					System.out.println("Novo prato #"+novoId);
+					for (Prato p : pratos) {
+						if (p.getId().equals(novoId)) {
+							System.err.println("=====================================ID EXISTENTE=========================================");
+							
+							idUnico = false;
+							break;
+						}
 					}
-				}
-			} while (!idUnico);
-		} else {
-			int random = (int) Math.random();
-			novoId = "P"+random;
+				} while (!idUnico);
+			} else {
+				int random = (int) Math.random();
+				novoId = "P"+random;
+			}		
+			prato.setId(novoId);
+			repPrato.save(prato);
 		}
-
-		prato.setId(novoId);
-		repPrato.save(prato);
 	}
 }

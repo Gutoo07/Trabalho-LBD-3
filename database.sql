@@ -30,7 +30,8 @@ select * from cliente
 select * from ingrediente
 select * from pedido
 select * from pedido_prato
-select * from prato
+select * from prato order by id asc
 select * from prato_ingrediente
 select * from tipo
+
 

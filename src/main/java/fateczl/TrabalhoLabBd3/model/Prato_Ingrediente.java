@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 public class Prato_Ingrediente implements java.io.Serializable {
 	@EmbeddedId
-	private PratoIngredienteId pratoIngredienteId;
+	private Prato_IngredienteId pratoIngredienteId;
 	@Column(name = "qtd", nullable = false)
 	private int qtd;
 	

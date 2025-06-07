@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class PratoIngredienteId implements Serializable {
+public class Prato_IngredienteId implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "prato_id")
 	private Prato prato;

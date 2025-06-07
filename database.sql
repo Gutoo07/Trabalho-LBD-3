@@ -34,4 +34,5 @@ select * from prato order by id asc
 select * from prato_ingrediente
 select * from tipo
 
+delete from prato
 

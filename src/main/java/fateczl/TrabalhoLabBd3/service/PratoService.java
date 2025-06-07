@@ -1,6 +1,7 @@
 package fateczl.TrabalhoLabBd3.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,28 +19,32 @@ public class PratoService {
 
 		String novoId = "";
 		boolean idUnico;
-		for (int i = 0; i < 10; i++) {
-			if (pratos != null) {
-				do {
-					idUnico = true;
-					int random = (int) (Math.random() * 10000);
-					novoId = "P"+random;
-					System.out.println("Novo prato #"+novoId);
-					for (Prato p : pratos) {
-						if (p.getId().equals(novoId)) {
-							System.err.println("=====================================ID EXISTENTE=========================================");
-							
-							idUnico = false;
-							break;
-						}
-					}
-				} while (!idUnico);
-			} else {
-				int random = (int) Math.random();
+		if (pratos != null) {
+			do {
+				idUnico = true;
+				int random = (int) (Math.random() * 10000);
 				novoId = "P"+random;
-			}		
-			prato.setId(novoId);
-			repPrato.save(prato);
-		}
+				for (Prato p : pratos) {
+					if (p.getId().equals(novoId)) {
+						idUnico = false;
+						break;
+					}
+				}
+			} while (!idUnico);
+		} else {
+			int random = (int) Math.random();
+			novoId = "P"+random;
+		}		
+		prato.setId(novoId);
+		repPrato.save(prato);
+	}
+	public List<Prato> findAll() {
+		return repPrato.findAll();
+	}
+	public Optional<Prato> findById(String id) {
+		return repPrato.findById(id);
+	}
+	public void excluir(Prato prato) {
+		repPrato.delete(prato);
 	}
 }

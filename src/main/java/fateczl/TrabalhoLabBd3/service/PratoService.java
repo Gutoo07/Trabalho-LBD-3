@@ -47,4 +47,7 @@ public class PratoService {
 	public void excluir(Prato prato) {
 		repPrato.delete(prato);
 	}
+	public void update(Prato prato) {
+		repPrato.save(prato);
+	}
 }

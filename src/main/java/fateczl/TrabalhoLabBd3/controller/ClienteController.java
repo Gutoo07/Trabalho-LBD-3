@@ -49,22 +49,14 @@ public class ClienteController {
 	public String novoCliente(@RequestParam Map<String, String> params, ModelMap model, HttpServletResponse response) {
 		Cliente cliente = new Cliente();
 		String cpf = params.get("cpf");
-		//cliente.setCpf(params.get("cpf"));
 		String nome = params.get("nome");
-		//cliente.setNome(params.get("nome"));
 		String telefone = params.get("telefone");
-		//cliente.setTelefone(params.get("telefone"));
 		String end_log = params.get("end_log");
-		//cliente.setEnd_log(params.get("end_log"));
 		String end_num = params.get("end_num");
-		//cliente.setEnd_num(Integer.parseInt(params.get("end_num")));
 		String end_cep = params.get("end_cep");
-		//cliente.setEnd_cep(params.get("end_cep"));
 		String end_ponto_ref = params.get("end_ponto_ref");
-		//cliente.setEnd_ponto_ref( params.get("end_ponto_ref"));
 		
 		String acao = params.get("acao");
-		
 		
 		if (acao.equalsIgnoreCase("Inserir") || acao.equalsIgnoreCase("Atualizar")) {
 			cliente.setCpf(cpf);
@@ -86,9 +78,11 @@ public class ClienteController {
 				cliente = null;
 			}
 			if (acao.equalsIgnoreCase("Buscar")) {
-				Optional<Cliente> clienteOpt = clienteService.findById(cpf);
-				if (clienteOpt.isPresent()) {
-					cliente = clienteOpt.get();
+				if (cpf != null && !cpf.isEmpty()) {
+					Optional<Cliente> clienteOpt = clienteService.findById(cpf);
+					if (clienteOpt.isPresent()) {
+						cliente = clienteOpt.get();
+					}
 				}
 			}
 		} catch (JDBCException e) {
@@ -102,14 +96,3 @@ public class ClienteController {
 		return "clientes";
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

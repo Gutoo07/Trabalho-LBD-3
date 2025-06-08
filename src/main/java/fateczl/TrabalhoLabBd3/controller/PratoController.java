@@ -54,6 +54,9 @@ public class PratoController {
 		prato.setTamanho_porcao(Integer.parseInt(params.get("tamanho_porcao")));
 		prato.setTipo(tipoService.findById(Long.valueOf(params.get("tipo_id"))).get());
 		pratoService.save(prato);
+		List<Prato> pratos = pratoService.findAll();
+		model.addAttribute("pratos", pratos);
+		model.addAttribute("prato", null);
 		return "pratos";
 	}
 }

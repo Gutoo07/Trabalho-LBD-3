@@ -66,6 +66,9 @@ public class ClienteController {
 			cliente.setEnd_num(Integer.parseInt(end_num));
 			cliente.setEnd_cep(end_cep);
 			cliente.setEnd_ponto_ref(end_ponto_ref);
+		} 
+		if (acao.equalsIgnoreCase("Excluir")) {
+			cliente.setCpf(cpf);
 		}
 		String erro = "";
 		try {
@@ -85,8 +88,9 @@ public class ClienteController {
 					}
 				}
 			}
-		} catch (JDBCException e) {
+		} catch (Exception e) {
 			erro = e.getMessage();
+			System.err.println(erro);
 		} finally {
 			List<Cliente> clientes = clienteService.findAll();
 			model.addAttribute("cliente", cliente);

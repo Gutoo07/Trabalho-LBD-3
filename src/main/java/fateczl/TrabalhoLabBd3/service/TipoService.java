@@ -1,5 +1,6 @@
 package fateczl.TrabalhoLabBd3.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,11 @@ public class TipoService {
 	}
 	public void save(Tipo tipo) {
 		repTipo.save(tipo);
+	}
+	public void excluir(Tipo tipo) {
+		repTipo.delete(tipo);
+	}
+	public List<Tipo> findAll() {
+		return repTipo.findAll();
 	}
 }

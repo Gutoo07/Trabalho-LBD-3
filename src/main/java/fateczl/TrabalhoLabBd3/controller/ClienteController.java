@@ -45,8 +45,8 @@ public class ClienteController {
 		model.addAttribute("cliente", cliente);
 		return "clientes";
 	}
-	@PostMapping("/novoCliente")
-	public String novoCliente(@RequestParam Map<String, String> params, ModelMap model, HttpServletResponse response) {
+	@PostMapping("/crudCliente")
+	public String crudCliente(@RequestParam Map<String, String> params, ModelMap model, HttpServletResponse response) {
 		Cliente cliente = new Cliente();
 		String cpf = params.get("cpf");
 		String nome = params.get("nome");
@@ -59,22 +59,38 @@ public class ClienteController {
 		String acao = params.get("acao");
 		
 		if (acao.equalsIgnoreCase("Inserir") || acao.equalsIgnoreCase("Atualizar")) {
-			cliente.setCpf(cpf);
 			cliente.setNome(nome);
 			cliente.setTelefone(telefone);
 			cliente.setEnd_log(end_log);
 			cliente.setEnd_num(Integer.parseInt(end_num));
 			cliente.setEnd_cep(end_cep);
 			cliente.setEnd_ponto_ref(end_ponto_ref);
-		} 
-		if (acao.equalsIgnoreCase("Excluir")) {
+		}
+		if (acao.equalsIgnoreCase("Atualizar") || acao.equalsIgnoreCase("Excluir") || acao.equalsIgnoreCase("Inserir")) {
 			cliente.setCpf(cpf);
 		}
+			
 		String erro = "";
 		try {
-			if (acao.equalsIgnoreCase("Inserir") || acao.equalsIgnoreCase("Atualizar")) {
-				clienteService.save(cliente);
-				cliente = null;
+			if (acao.equalsIgnoreCase("Inserir")) {
+				if (cliente.getCpf() != null) {										
+					if (clienteService.findById(cliente.getCpf()).isPresent()) {
+						erro = "Um cliente com esse CPF ja existe.";
+					} else {
+						clienteService.save(cliente);
+						cliente = null;
+					}						
+				}
+			}
+			if (acao.equalsIgnoreCase("Atualizar")) {
+				if (cliente.getCpf() != null) {
+					if (clienteService.findById(cliente.getCpf()).isPresent()) {
+						clienteService.save(cliente);
+						cliente = null;
+					} else {
+						erro = "Cliente inexistente";
+					}
+				}
 			}
 			if (acao.equalsIgnoreCase("Excluir")) {
 				clienteService.excluir(cliente);
@@ -88,9 +104,8 @@ public class ClienteController {
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (JDBCException e) {
 			erro = e.getMessage();
-			System.err.println(erro);
 		} finally {
 			List<Cliente> clientes = clienteService.findAll();
 			model.addAttribute("cliente", cliente);

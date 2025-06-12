@@ -49,8 +49,8 @@ public class PratoController {
 	}
 	
 	
-	@PostMapping("/novoPrato")
-	public String novoPrato(@RequestParam Map<String, String> params, ModelMap model, HttpServletResponse response) {
+	@PostMapping("/crudPrato")
+	public String crudPrato(@RequestParam Map<String, String> params, ModelMap model, HttpServletResponse response) {
 		Prato prato = new Prato();
 		String prato_id = params.get("prato_id");
 		String nome = params.get("nome");

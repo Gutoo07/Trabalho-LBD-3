@@ -80,6 +80,8 @@ public class ClienteController {
 						clienteService.save(cliente);
 						cliente = null;
 					}						
+				} else {
+					erro = "CPF nao informado";
 				}
 			}
 			if (acao.equalsIgnoreCase("Atualizar")) {
@@ -90,20 +92,35 @@ public class ClienteController {
 					} else {
 						erro = "Cliente inexistente";
 					}
+				} else {
+					erro = "CPF nao informado";
 				}
 			}
 			if (acao.equalsIgnoreCase("Excluir")) {
-				clienteService.excluir(cliente);
-				cliente = null;
+				if (cliente.getCpf() != null) {
+					if (clienteService.findById(cliente.getCpf()).isPresent()) {
+						clienteService.excluir(cliente);
+						cliente = null;
+					} else {
+						erro = "Cliente inexistente";
+					}
+				}  else {
+					erro = "CPF nao informado";
+				}
 			}
 			if (acao.equalsIgnoreCase("Buscar")) {
 				if (cpf != null && !cpf.isEmpty()) {
 					Optional<Cliente> clienteOpt = clienteService.findById(cpf);
 					if (clienteOpt.isPresent()) {
 						cliente = clienteOpt.get();
+					} else {
+						erro = "Cliente inexistente";
 					}
+				} else {
+					erro = "CPF nao informado";
 				}
 			}
+			System.err.println(erro);
 		} catch (JDBCException e) {
 			erro = e.getMessage();
 		} finally {

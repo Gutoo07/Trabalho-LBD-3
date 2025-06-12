@@ -57,6 +57,7 @@ public class ClienteController {
 		String end_ponto_ref = params.get("end_ponto_ref");
 		
 		String acao = params.get("acao");
+		String erro = "";
 		
 		if (acao.equalsIgnoreCase("Inserir") || acao.equalsIgnoreCase("Atualizar")) {
 			cliente.setNome(nome);
@@ -70,7 +71,6 @@ public class ClienteController {
 			cliente.setCpf(cpf);
 		}
 			
-		String erro = "";
 		try {
 			if (acao.equalsIgnoreCase("Inserir")) {
 				if (cliente.getCpf() != null) {										

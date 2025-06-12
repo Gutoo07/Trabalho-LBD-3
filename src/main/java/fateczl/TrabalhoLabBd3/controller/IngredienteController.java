@@ -53,47 +53,65 @@ public class IngredienteController {
 		String id = params.get("id");
 		String nome = params.get("nome");
 		String apresentacao = params.get("apresentacao");
+		
 		String acao = params.get("acao");
-
-		String erro = "";
-		Optional<Ingrediente> ingOpt;
+		String erro = "";		
+		
 		if (acao.equalsIgnoreCase("Inserir") || acao.equalsIgnoreCase("Atualizar")) {
 			ingrediente.setNome(nome);
 			ingrediente.setApresentacao(apresentacao);
+		}
+		if (acao.equalsIgnoreCase("Atualizar") || acao.equalsIgnoreCase("Excluir")) {
+			if (id != null && !id.isEmpty()) {
+				ingrediente.setId(Long.valueOf(id));
+			}
 		}
 		try {			
 			if (acao.equalsIgnoreCase("Inserir")) {
 				if (id != null && !id.isEmpty()) {
 					erro = "Um ingrediente com esse ID ja existe.";
-					System.err.println(erro);
 				} else {
 					ingService.save(ingrediente);
+					ingrediente = null;
 				}
 			}
 			if (acao.equalsIgnoreCase("Atualizar")) {
-				if (id != null && !id.isEmpty()) {
-					ingrediente.setId(Long.valueOf(id));
-					ingService.save(ingrediente);
+				if (ingrediente.getId() != null) {
+					if (ingService.findById(ingrediente.getId()).isPresent()) {
+						ingService.save(ingrediente);
+						ingrediente = null;
+					} else {
+						erro = "Ingrediente inexistente";
+					}
 				} else {
-					erro = "Ingrediente inexistente";
-					System.err.println(erro);
+					erro = "ID em branco";
 				}
 			}
 			if (acao.equalsIgnoreCase("Excluir")) {
-				if (id != null && !id.isEmpty()) {
-					ingrediente.setId(Long.valueOf(id));
-					ingService.excluir(ingrediente);
+				if (ingrediente.getId() != null) {
+					if (ingService.findById(ingrediente.getId()).isPresent()) {
+						ingService.excluir(ingrediente);
+						ingrediente = null;
+					} else {
+						erro = "Ingrediente inexistente";
+					}
 				} else {
-					erro = "Ingrediente inexistente";
-					System.err.println(erro);
+					erro = "ID em branco";
 				}
 			}				
 			if (acao.equalsIgnoreCase("Buscar")) {
-				ingOpt = ingService.findByNome(nome);
-				if (ingOpt.isPresent()) {
-					ingrediente = ingOpt.get();
-				}
+				if (nome != null && !nome.isEmpty()) {
+					Optional<Ingrediente> ingOpt = ingService.findByNome(nome);
+					if (ingOpt.isPresent()) {
+						ingrediente = ingOpt.get();
+					} else {
+						erro = "Ingrediente inexistente";
+					}
+				} else {
+					erro = "Nome do ingrediente nao informado";
+				}				
 			}
+			System.err.println(erro);
 		} catch (Exception e) {
 			erro = e.getMessage();
 		} finally {

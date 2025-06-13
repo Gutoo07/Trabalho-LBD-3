@@ -1,5 +1,6 @@
 package fateczl.TrabalhoLabBd3.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,5 +50,12 @@ public class PratoService {
 	}
 	public void update(Prato prato) {
 		repPrato.save(prato);
+	}
+	public double calculaValorTotal(List<Prato> pratos) {
+		double valorTotal = 0.0;
+		for (Prato p : pratos) {
+			valorTotal += p.getValor().doubleValue();
+		}
+		return valorTotal;
 	}
 }

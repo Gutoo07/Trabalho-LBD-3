@@ -2,8 +2,11 @@ package fateczl.TrabalhoLabBd3.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.ManyToAny;
+import org.springframework.data.annotation.Transient;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,4 +37,20 @@ public class Pedido {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliente_id", nullable = false)
 	private Cliente cliente;
+	
+	@Transient
+	private List<Prato> pratos;
+	
+	public void adicionarPrato(Prato prato) {
+		if (this.pratos == null) {
+			pratos = new ArrayList<>();
+		}
+		pratos.add(prato);
+	}
+	public void removerPrato(Prato prato) {
+		pratos.remove(prato);
+	}
+	public void limpar() {
+		pratos.clear();
+	}
 }

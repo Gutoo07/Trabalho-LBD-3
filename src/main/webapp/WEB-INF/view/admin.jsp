@@ -103,10 +103,7 @@
 			            <td>${p.nome}</td>
 			            <td>${p.tipo.nome}</td>
 			            <td>
-
-							<a href="pratos?acao=editar&prato_id=${p.id}">Editar</a> |
 							<a href="pratos?acao=excluir&prato_id=${p.id}" onclick="return confirm('Confirma exclusão?');">Excluir</a>
-
 			            </td>
 			          </tr>
 			        </c:forEach>
@@ -115,47 +112,96 @@
 			  </section>
 	
 
-	  <section id="tipos">
-	    <h2>Tipos</h2>
-	    <form id="formTipo">
-	      <input type="text" placeholder="Nome do Tipo" required />
-	      <button type="submit" class="btn">Salvar</button>
-	    </form>
-	    <table>
-	      <thead><tr><th>ID</th><th>Nome</th><th>Ações</th></tr></thead>
-	      <tbody>
-	        <c:forEach var="tipo" items="${tipos}">
-	          <tr>
-	            <td>${tipo.id}</td>
-	            <td>${tipo.nome}</td>
-	            <td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td>
-	          </tr>
-	        </c:forEach>
-	      </tbody>
-	    </table>
-	  </section>
+			  <section id="tipos">
+			    <h2>Tipos</h2>
+			    <!-- Form para inserir / atualizar -->
+			    <form id="formTipo" method="post" action="/crudTipo">
+			      <input type="hidden" name="tipo_id" id="tipo_id" value="" />
+			      <input type="text" name="nome" placeholder="Nome do Tipo" required />
+			      <input type="hidden" name="acao" id="acao" value="Inserir" />
+			      <button type="submit" class="btn">Salvar</button>
+			    </form>
 
-	  <section id="ingredientes">
-	    <h2>Ingredientes</h2>
-	    <form id="formIngrediente">
-	      <input type="text" placeholder="Nome do Ingrediente" required />
-	      <input type="text" placeholder="Formato de Apresentação" required />
-	      <button type="submit" class="btn">Salvar</button>
-	    </form>
-	    <table>
-	      <thead><tr><th>ID</th><th>Nome</th><th>Formato</th><th>Ações</th></tr></thead>
-	      <tbody>
-	        <c:forEach var="ing" items="${ingredientes}">
-	          <tr>
-	            <td>${ing.id}</td>
-	            <td>${ing.nome}</td>
-	            <td>${ing.apresentacao}</td>
-	            <td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td>
-	          </tr>
-	        </c:forEach>
-	      </tbody>
-	    </table>
-	  </section>
+			    <!-- Tabela com tipos -->
+			    <table>
+			      <thead>
+			        <tr>
+			          <th>ID</th>
+			          <th>Nome</th>
+			          <th>Ações</th>
+			        </tr>
+			      </thead>
+			      <tbody>
+			        <c:forEach var="tipo" items="${tipos}">
+			          <tr>
+			            <td>${tipo.id}</td>
+			            <td>${tipo.nome}</td>
+			            <td>
+		
+	
+			              <form method="post" action="/crudTipo" style="display:inline;">
+			                <input type="hidden" name="tipo_id" value="${tipo.id}" />
+			                <input type="hidden" name="acao" value="Excluir" />
+			                <button type="submit" class="btn btn-danger">Excluir</button>
+			              </form>
+			            </td>
+			          </tr>
+			        </c:forEach>
+			      </tbody>
+			    </table>
+
+			    <!-- Espaço para exibir erros, se houver -->
+			    <c:if test="${not empty erro}">
+			      <p style="color: red;">${erro}</p>
+			    </c:if>
+
+			  </section>
+
+			  <section id="ingredientes">
+			    <h2>Ingredientes</h2>
+			    <form id="formIngrediente" method="post" action="/crudIngrediente">
+			      <input type="hidden" name="id" id="id" value="" />
+			      <input type="text" name="nome" placeholder="Nome do Ingrediente" required />
+			      <input type="text" name="apresentacao" placeholder="Formato de Apresentação" required />
+			      <input type="hidden" name="acao" id="acao" value="Inserir" />
+			      <button type="submit" class="btn">Salvar</button>
+			    </form>
+
+			    <table>
+			      <thead>
+			        <tr>
+			          <th>ID</th>
+			          <th>Nome</th>
+			          <th>Formato</th>
+			          <th>Ações</th>
+			        </tr>
+			      </thead>
+			      <tbody>
+			        <c:forEach var="ing" items="${ingredientes}">
+			          <tr>
+			            <td>${ing.id}</td>
+			            <td>${ing.nome}</td>
+			            <td>${ing.apresentacao}</td>
+			            <td>
+			              <form method="post" action="/crudIngrediente" style="display:inline;">
+			                <input type="hidden" name="id" value="${ing.id}" />
+			                <input type="hidden" name="acao" value="Excluir" />
+			                <button type="submit" class="btn btn-danger">Excluir</button>
+			              </form>
+			            </td>
+			          </tr>
+			        </c:forEach>
+			      </tbody>
+			    </table>
+
+			    <c:if test="${not empty erro}">
+			      <p style="color: red;">${erro}</p>
+			    </c:if>
+			  </section>
+
+			
+
+
 
 	 
 

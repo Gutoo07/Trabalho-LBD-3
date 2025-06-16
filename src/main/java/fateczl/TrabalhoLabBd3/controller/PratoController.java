@@ -19,6 +19,7 @@ import fateczl.TrabalhoLabBd3.model.Prato_Ingrediente;
 import fateczl.TrabalhoLabBd3.model.Prato_IngredienteId;
 import fateczl.TrabalhoLabBd3.model.Tipo;
 import fateczl.TrabalhoLabBd3.service.IngredienteService;
+import fateczl.TrabalhoLabBd3.service.PedidoPratoService;
 import fateczl.TrabalhoLabBd3.service.PratoIngredienteService;
 import fateczl.TrabalhoLabBd3.service.PratoService;
 import fateczl.TrabalhoLabBd3.service.TipoService;
@@ -30,8 +31,13 @@ public class PratoController {
 	PratoService pratoService;
 	@Autowired
 	TipoService tipoService;
+	
+	
 	@Autowired
 	PratoIngredienteService pratoIngredienteService;
+	
+	@Autowired
+	PedidoPratoService pedidoPratoService;
 	
 	@Autowired
 	IngredienteService ingService;
@@ -57,7 +63,7 @@ public class PratoController {
 		} 
 		model.addAttribute("pratos", pratos);
 		model.addAttribute("prato", prato);
-		return "admin";
+		return "redirect:/admin";
 	}
 	
 	@PostMapping("/crudPrato")
@@ -129,6 +135,7 @@ public class PratoController {
 	            if (prato_id != null && !prato_id.isEmpty()) {
 	                prato.setId(prato_id);
 	                // Primeiro exclui as associações
+	                pedidoPratoService.deleteByPrato(prato);
 	                pratoIngredienteService.deleteByPrato(prato);
 	                // Depois exclui o prato
 	                pratoService.excluir(prato);
@@ -151,7 +158,7 @@ public class PratoController {
 	        model.addAttribute("prato", prato);
 	        model.addAttribute("erro", erro);
 	    }
-	    return "admin";
+	    return "redirect:/admin";
 	}
 
 }

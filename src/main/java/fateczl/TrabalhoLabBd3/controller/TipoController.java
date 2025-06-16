@@ -41,7 +41,7 @@ public class TipoController {
 		}
 		model.addAttribute("tipos", tipos);
 		model.addAttribute("tipo", tipo);
-		return "tipos";
+		return "redirect:/admin";
 	}
 	
 	@PostMapping("/crudTipo")
@@ -79,6 +79,6 @@ public class TipoController {
 			model.addAttribute("tipo", tipo);
 			model.addAttribute("tipos", tipos);
 		}		
-		return "tipos";
+		return "redirect:/admin";
 	}
 }

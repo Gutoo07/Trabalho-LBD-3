@@ -44,7 +44,7 @@ public class IngredienteController {
 		}
 		model.addAttribute("ingredientes", ingredientes);
 		model.addAttribute("ingrediente", ingrediente);
-		return "ingredientes";
+		return "redirect:/admin";
 	}
 	
 	@PostMapping("/crudIngrediente")
@@ -120,6 +120,6 @@ public class IngredienteController {
 			model.addAttribute("ingredientes", ingredientes);
 			model.addAttribute("erro", erro);
 		}
-		return "ingredientes";
+		return "redirect:/admin";
 	}
 }

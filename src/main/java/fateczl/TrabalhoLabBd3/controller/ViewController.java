@@ -33,8 +33,10 @@ import fateczl.TrabalhoLabBd3.persistence.PratoComIngredientesDTO;
 import fateczl.TrabalhoLabBd3.persistence.PratoRepository;
 import fateczl.TrabalhoLabBd3.persistence.Prato_IngredienteRepository;
 import fateczl.TrabalhoLabBd3.service.ClienteService;
+import fateczl.TrabalhoLabBd3.service.IngredienteService;
 import fateczl.TrabalhoLabBd3.service.PedidoService;
 import fateczl.TrabalhoLabBd3.service.PratoService;
+import fateczl.TrabalhoLabBd3.service.TipoService;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
@@ -51,6 +53,12 @@ public class ViewController {
 	private PedidoService pedidoService;
 	@Autowired
 	private PratoService pratoService;
+	
+	@Autowired
+	private IngredienteService ingredienteService;
+	
+	@Autowired
+	private TipoService tipoService;
 		
 	@Autowired
 	private PedidoRepository repPedido;
@@ -101,21 +109,24 @@ public class ViewController {
 
 	
 	@GetMapping("/admin")
-	public String admin(Model model, @RequestParam Map<String, String> params) throws ClassNotFoundException, SQLException {
-		
-		return "admin";
+	public String admin(Model model) {
+	    model.addAttribute("pratos", pratoService.findAll());
+	    model.addAttribute("ingredientes", ingredienteService.findAll());
+	    model.addAttribute("tipos", tipoService.findAll());
+	    return "admin";
 	}
+
 	
 	@PostMapping("/finalizar-compra")
 	public String finalizarCompra(@CookieValue(value = "userSession", defaultValue = "") String userSession,
 	                             @ModelAttribute("carrinho") Carrinho carrinho) {
 	    if (userSession == null || userSession.isEmpty()) {
-	        return "redirect:/login";
+	        return "redirect:/";
 	    }
 
 	    Cliente cliente = clienteService.findByUserSession(userSession);
 	    if (cliente == null) {
-	        return "redirect:/login";
+	        return "redirect:/";
 	    }
 
 

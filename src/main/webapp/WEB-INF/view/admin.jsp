@@ -25,124 +25,140 @@
 </style>
 </head>
 <body>
-<header>
-  <h1>Painel Administrativo</h1>
-</header>
-<nav>
-  <a href="#pratos">Pratos</a>
-  <a href="#tipos">Tipos</a>
-  <a href="#ingredientes">Ingredientes</a>
-  <a href="#porcoes">Porções</a>
-  <a href="#clientes">Clientes</a>
-  <a href="#pedidos">Pedidos</a>
-  <a href="#relatorios">Relatórios</a>
-</nav>
-<main>
+	<header>
+	  <h1>Painel Administrativo</h1>
+	</header>
+	<nav>
+	  <a href="#pratos">Pratos</a>
+	  <a href="#tipos">Tipos</a>
+	  <a href="#ingredientes">Ingredientes</a>
+	  <a href="#clientes">Clientes</a>
+	  <a href="#pedidos">Pedidos</a>
+	  <a href="#relatorios">Relatórios</a>
+	</nav>
+	<main>
+		
+		<section id="pratos">
+			    <h2>Pratos</h2>
 
-<section id="pratos">
-  <h2>CRUD Pratos</h2>
-  <form id="formPrato">
-    <input type="text" placeholder="ID (ex: P123)" required />
-    <input type="text" placeholder="Nome do Prato" required />
-    <select>
-      <option value="">Selecione o Tipo</option>
-      <!-- opções carregadas dinamicamente -->
-    </select>
-    <button type="submit" class="btn">Salvar</button>
-  </form>
-  <table>
-    <thead><tr><th>ID</th><th>Nome</th><th>Tipo</th><th>Ações</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>P123</td><td>Frango Grelhado</td><td>Carnes</td>
-        <td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td>
-      </tr>
-    </tbody>
-  </table>
-</section>
+			    <form action="crudPrato" method="post">
+			      <input type="hidden" name="prato_id" value="${prato != null ? prato.id : ''}" />
 
-<section id="tipos">
-  <h2>CRUD Tipos</h2>
-  <form id="formTipo">
-    <input type="text" placeholder="Nome do Tipo" required />
-    <button type="submit" class="btn">Salvar</button>
-  </form>
-  <table>
-    <thead><tr><th>ID</th><th>Nome</th><th>Ações</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>Carnes</td><td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td></tr>
-    </tbody>
-  </table>
-</section>
+			      <label>Nome do Prato:</label>
+			      <input type="text" name="nome" value="${prato != null ? prato.nome : ''}" required />
 
-<section id="ingredientes">
-  <h2>CRUD Ingredientes</h2>
-  <form id="formIngrediente">
-    <input type="text" placeholder="Nome do Ingrediente" required />
-    <input type="text" placeholder="Formato de Apresentação" required />
-    <button type="submit" class="btn">Salvar</button>
-  </form>
-  <table>
-    <thead><tr><th>ID</th><th>Nome</th><th>Formato</th><th>Ações</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>Frango</td><td>Peito</td><td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td></tr>
-    </tbody>
-  </table>
-</section>
+			      <label>Tamanho da Porção:</label>
+			      <input type="number" name="tamanho_porcao" value="${prato != null ? prato.tamanho_porcao : ''}" required />
 
+				  <label>Valor (R$):</label>
+				  <input type="number" 
+				         name="valor" 
+				         value="${prato != null ? prato.valor : ''}" 
+				         step="0.01" 
+				         min="0.01" 
+				         required 
+				         placeholder="0.00" />
+						 
+			      <label>Tipo:</label>
+			      <select name="tipo_id" required>
+			        <option value="">Selecione o Tipo</option>
+			        <c:forEach var="tipo" items="${tipos}">
+			          <option value="${tipo.id}" 
+			            <c:if test="${prato != null && prato.tipo != null && tipo.id == prato.tipo.id}">selected</c:if>>
+			            ${tipo.nome}
+			          </option>
+			        </c:forEach>
+			      </select>
 
+				  <label>Ingredientes:</label>
+				  <div style="max-height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 5px; background: white;">
+				    <c:forEach var="ing" items="${ingredientes}">
+				      <label style="display:block; margin-bottom:5px;">
+				        <input type="checkbox" name="ingredientesIds" value="${ing.id}"
+				          <c:if test="${prato != null && prato.ingredientes != null && prato.ingredientes.contains(ing)}">checked</c:if> />
+				        ${ing.nome} (${ing.apresentacao})
+				      </label>
+				    </c:forEach>
+				  </div>
 
-<section id="clientes">
-  <h2>CRUD Clientes</h2>
-  <form id="formCliente">
-    <input type="text" placeholder="CPF" required />
-    <input type="text" placeholder="Nome" required />
-    <input type="tel" placeholder="Telefone" required />
-    <input type="text" placeholder="Logradouro" required />
-    <input type="text" placeholder="Número" required />
-    <input type="text" placeholder="CEP" required />
-    <input type="text" placeholder="Ponto de Referência" />
-    <button type="submit" class="btn">Salvar</button>
-  </form>
-  <table>
-    <thead><tr><th>CPF</th><th>Nome</th><th>Telefone</th><th>Endereço</th><th>Ações</th></tr></thead>
-    <tbody>
-      <tr><td>12345678900</td><td>João Silva</td><td>(11) 99999-9999</td><td>Rua A, 123, 01234-000</td><td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td></tr>
-    </tbody>
-  </table>
-</section>
+			
 
-<section id="pedidos">
-  <h2>Pedidos</h2>
-  <table>
-    <thead><tr><th>ID</th><th>Cliente</th><th>Data</th><th>Valor Total</th><th>Ações</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>João Silva</td><td>2025-06-15</td><td>R$ 150,00</td><td><button class="btn">Visualizar</button></td></tr>
-    </tbody>
-  </table>
-</section>
+			      <br><br>
+			      <input type="submit" name="acao" value="Inserir" class="btn" />
+			    </form>
 
-<section id="relatorios">
-  <h2>Relatórios PDF</h2>
-  <form id="relatorioPratos">
-    <label>Relatório de Pratos por Tipo:</label>
-    <select>
-      <!-- opções de tipos -->
-    </select>
-    <button class="btn" type="submit">Gerar PDF</button>
-  </form>
-  <form id="relatorioPedido">
-    <label>Relatório Pedido Atual do Cliente (CPF):</label>
-    <input type="text" placeholder="CPF do Cliente" />
-    <button class="btn" type="submit">Gerar PDF</button>
-  </form>
-  <form id="relatorioDia">
-    <label>Relatório de Pedidos por Data:</label>
-    <input type="date" />
-    <button class="btn" type="submit">Gerar PDF</button>
-  </form>
-</section>
+			    <c:if test="${not empty erro}">
+			      <p style="color: red;">${erro}</p>
+			    </c:if>
 
-</main>
+			    <h3>Lista de Pratos</h3>
+			    <table border="1">
+			      <thead>
+			        <tr><th>ID</th><th>Nome</th><th>Tipo</th><th>Ações</th></tr>
+			      </thead>
+			      <tbody>
+			        <c:forEach var="p" items="${pratos}">
+			          <tr>
+			            <td>${p.id}</td>
+			            <td>${p.nome}</td>
+			            <td>${p.tipo.nome}</td>
+			            <td>
+
+							<a href="pratos?acao=editar&prato_id=${p.id}">Editar</a> |
+							<a href="pratos?acao=excluir&prato_id=${p.id}" onclick="return confirm('Confirma exclusão?');">Excluir</a>
+
+			            </td>
+			          </tr>
+			        </c:forEach>
+			      </tbody>
+			    </table>
+			  </section>
+	
+
+	  <section id="tipos">
+	    <h2>Tipos</h2>
+	    <form id="formTipo">
+	      <input type="text" placeholder="Nome do Tipo" required />
+	      <button type="submit" class="btn">Salvar</button>
+	    </form>
+	    <table>
+	      <thead><tr><th>ID</th><th>Nome</th><th>Ações</th></tr></thead>
+	      <tbody>
+	        <c:forEach var="tipo" items="${tipos}">
+	          <tr>
+	            <td>${tipo.id}</td>
+	            <td>${tipo.nome}</td>
+	            <td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td>
+	          </tr>
+	        </c:forEach>
+	      </tbody>
+	    </table>
+	  </section>
+
+	  <section id="ingredientes">
+	    <h2>Ingredientes</h2>
+	    <form id="formIngrediente">
+	      <input type="text" placeholder="Nome do Ingrediente" required />
+	      <input type="text" placeholder="Formato de Apresentação" required />
+	      <button type="submit" class="btn">Salvar</button>
+	    </form>
+	    <table>
+	      <thead><tr><th>ID</th><th>Nome</th><th>Formato</th><th>Ações</th></tr></thead>
+	      <tbody>
+	        <c:forEach var="ing" items="${ingredientes}">
+	          <tr>
+	            <td>${ing.id}</td>
+	            <td>${ing.nome}</td>
+	            <td>${ing.apresentacao}</td>
+	            <td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td>
+	          </tr>
+	        </c:forEach>
+	      </tbody>
+	    </table>
+	  </section>
+
+	 
+
+	</main>
 </body>
 </html>

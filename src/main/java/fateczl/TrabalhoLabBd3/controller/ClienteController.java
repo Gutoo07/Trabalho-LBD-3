@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fateczl.TrabalhoLabBd3.model.Cliente;
 import fateczl.TrabalhoLabBd3.service.ClienteService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
@@ -55,6 +56,7 @@ public class ClienteController {
 		String end_num = params.get("end_num");
 		String end_cep = params.get("end_cep");
 		String end_ponto_ref = params.get("end_ponto_ref");
+		String senha = params.get("senha");
 		
 		String acao = params.get("acao");
 		String erro = "";
@@ -66,6 +68,7 @@ public class ClienteController {
 			cliente.setEnd_num(Integer.parseInt(end_num));
 			cliente.setEnd_cep(end_cep);
 			cliente.setEnd_ponto_ref(end_ponto_ref);
+			cliente.setSenha(senha);
 		}
 		if (acao.equalsIgnoreCase("Atualizar") || acao.equalsIgnoreCase("Excluir") || acao.equalsIgnoreCase("Inserir")) {
 			cliente.setCpf(cpf);
@@ -129,6 +132,44 @@ public class ClienteController {
 			model.addAttribute("clientes", clientes);
 			model.addAttribute("erro", erro);
 		}		
-		return "clientes";
+		return "login";
 	}
+	
+	@PostMapping("/sendLogin")
+	public String sendLogin(@RequestParam String cpf,
+	                        @RequestParam String senha,
+	                        ModelMap model,
+	                        HttpServletResponse response) {
+	    String erro = "";
+
+	    if (cpf == null || cpf.isEmpty() || senha == null || senha.isEmpty()) {
+	        erro = "CPF ou senha não informados.";
+	        model.addAttribute("erro", erro);
+	        return "login";
+	    }
+
+	    Optional<Cliente> clienteOpt = clienteService.findById(cpf);
+
+	    if (clienteOpt.isPresent()) {
+	        Cliente cliente = clienteOpt.get();
+	        if (cliente.getSenha().equals(senha)) {
+	            //
+	            Cookie cookie = new Cookie("userSession", cliente.getCpf());
+	            cookie.setPath("/");
+	            cookie.setHttpOnly(true);
+	            cookie.setMaxAge(60 * 60 * 2); // 2 horas
+	            response.addCookie(cookie);
+
+	            return "redirect:/cardapio";
+	        } else {
+	            erro = "Senha incorreta.";
+	        }
+	    } else {
+	        erro = "Cliente não encontrado.";
+	    }
+
+	    model.addAttribute("erro", erro);
+	    return "login";
+	}
+
 }

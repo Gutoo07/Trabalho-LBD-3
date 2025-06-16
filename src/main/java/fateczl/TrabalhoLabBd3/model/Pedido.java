@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.ManyToAny;
-import org.springframework.data.annotation.Transient;
+//import org.springframework.data.annotation.Transient;
+//Esse import do transient tava com erro aqui no meu Gu então encontrei num forum pra trocar por esse aqui embaixo
+import jakarta.persistence.Transient;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

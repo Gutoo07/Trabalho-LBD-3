@@ -27,4 +27,7 @@ public class Cliente {
 	private String end_cep;
 	@Column(name = "end_ponto_ref", length = 100, nullable = true)
 	private String end_ponto_ref;
+	@Column(name = "senha", length = 20, nullable = false)
+	private String senha;
+	
 }

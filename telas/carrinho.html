@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Carrinho</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background:#fafafa; }
+  h1 { text-align: center; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+  .remover-btn { background-color: #dc3545; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; }
+  .remover-btn:hover { background-color: #c82333; }
+  .total { text-align: right; font-weight: bold; font-size: 18px; }
+  .finalizar { background-color: #28a745; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; float: right; }
+  .finalizar:hover { background-color: #218838; }
+</style>
+</head>
+<body>
+  <h1>Carrinho</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Prato</th>
+        <th>Porção</th>
+        <th>Quantidade</th>
+        <th>Valor Unitário</th>
+        <th>Subtotal</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody id="itensCarrinho">
+      <!-- Itens adicionados aparecerão aqui -->
+      <tr>
+        <td>Frango Grelhado</td>
+        <td>Médio</td>
+        <td>2</td>
+        <td>R$ 20,00</td>
+        <td>R$ 40,00</td>
+        <td><button class="remover-btn">Remover</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="total">Total: R$ 40,00</div>
+  <button class="finalizar">Finalizar Compra</button>
+</body>
+</html>

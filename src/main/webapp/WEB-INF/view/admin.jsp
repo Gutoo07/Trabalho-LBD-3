@@ -1,0 +1,148 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Painel Administrativo</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f1f1f1; }
+  header { background: #343a40; color: white; padding: 10px 20px; }
+  h1 { margin: 0; }
+  nav { background: #495057; padding: 10px 20px; display: flex; gap: 15px; }
+  nav a { color: white; text-decoration: none; font-weight: bold; }
+  nav a:hover { text-decoration: underline; }
+  main { padding: 20px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: white; }
+  th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+  .btn { padding: 8px 12px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; }
+  .btn:hover { background: #0056b3; }
+  .btn-danger { background: #dc3545; }
+  .btn-danger:hover { background: #a71d2a; }
+  form { margin-bottom: 20px; background: white; padding: 15px; border-radius: 5px; }
+  input, select { padding: 8px; margin: 5px 10px 10px 0; width: 200px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Painel Administrativo</h1>
+</header>
+<nav>
+  <a href="#pratos">Pratos</a>
+  <a href="#tipos">Tipos</a>
+  <a href="#ingredientes">Ingredientes</a>
+  <a href="#porcoes">Porções</a>
+  <a href="#clientes">Clientes</a>
+  <a href="#pedidos">Pedidos</a>
+  <a href="#relatorios">Relatórios</a>
+</nav>
+<main>
+
+<section id="pratos">
+  <h2>CRUD Pratos</h2>
+  <form id="formPrato">
+    <input type="text" placeholder="ID (ex: P123)" required />
+    <input type="text" placeholder="Nome do Prato" required />
+    <select>
+      <option value="">Selecione o Tipo</option>
+      <!-- opções carregadas dinamicamente -->
+    </select>
+    <button type="submit" class="btn">Salvar</button>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Nome</th><th>Tipo</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>P123</td><td>Frango Grelhado</td><td>Carnes</td>
+        <td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="tipos">
+  <h2>CRUD Tipos</h2>
+  <form id="formTipo">
+    <input type="text" placeholder="Nome do Tipo" required />
+    <button type="submit" class="btn">Salvar</button>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Nome</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Carnes</td><td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ingredientes">
+  <h2>CRUD Ingredientes</h2>
+  <form id="formIngrediente">
+    <input type="text" placeholder="Nome do Ingrediente" required />
+    <input type="text" placeholder="Formato de Apresentação" required />
+    <button type="submit" class="btn">Salvar</button>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Nome</th><th>Formato</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Frango</td><td>Peito</td><td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+
+<section id="clientes">
+  <h2>CRUD Clientes</h2>
+  <form id="formCliente">
+    <input type="text" placeholder="CPF" required />
+    <input type="text" placeholder="Nome" required />
+    <input type="tel" placeholder="Telefone" required />
+    <input type="text" placeholder="Logradouro" required />
+    <input type="text" placeholder="Número" required />
+    <input type="text" placeholder="CEP" required />
+    <input type="text" placeholder="Ponto de Referência" />
+    <button type="submit" class="btn">Salvar</button>
+  </form>
+  <table>
+    <thead><tr><th>CPF</th><th>Nome</th><th>Telefone</th><th>Endereço</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr><td>12345678900</td><td>João Silva</td><td>(11) 99999-9999</td><td>Rua A, 123, 01234-000</td><td><button class="btn">Editar</button> <button class="btn btn-danger">Excluir</button></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="pedidos">
+  <h2>Pedidos</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Cliente</th><th>Data</th><th>Valor Total</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>João Silva</td><td>2025-06-15</td><td>R$ 150,00</td><td><button class="btn">Visualizar</button></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="relatorios">
+  <h2>Relatórios PDF</h2>
+  <form id="relatorioPratos">
+    <label>Relatório de Pratos por Tipo:</label>
+    <select>
+      <!-- opções de tipos -->
+    </select>
+    <button class="btn" type="submit">Gerar PDF</button>
+  </form>
+  <form id="relatorioPedido">
+    <label>Relatório Pedido Atual do Cliente (CPF):</label>
+    <input type="text" placeholder="CPF do Cliente" />
+    <button class="btn" type="submit">Gerar PDF</button>
+  </form>
+  <form id="relatorioDia">
+    <label>Relatório de Pedidos por Data:</label>
+    <input type="date" />
+    <button class="btn" type="submit">Gerar PDF</button>
+  </form>
+</section>
+
+</main>
+</body>
+</html>

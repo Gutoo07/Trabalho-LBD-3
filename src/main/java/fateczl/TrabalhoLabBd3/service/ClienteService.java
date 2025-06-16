@@ -26,4 +26,12 @@ public class ClienteService {
 	public void save(Cliente cliente) {
 		repCliente.save(cliente);
 	}
+	
+	public Cliente findByUserSession(String userSession) {
+	    if (userSession == null || userSession.isEmpty()) {
+	        return null;
+	    }
+	    return repCliente.findById(userSession).orElse(null);
+	}
+
 }

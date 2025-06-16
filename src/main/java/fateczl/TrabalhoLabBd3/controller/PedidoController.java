@@ -1,6 +1,7 @@
 package fateczl.TrabalhoLabBd3.controller;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -8,14 +9,21 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import fateczl.TrabalhoLabBd3.model.Carrinho;
+import fateczl.TrabalhoLabBd3.model.Cliente;
 import fateczl.TrabalhoLabBd3.model.Pedido;
+import fateczl.TrabalhoLabBd3.model.Pedido_Prato;
 import fateczl.TrabalhoLabBd3.model.Prato;
+import fateczl.TrabalhoLabBd3.persistence.PedidoRepository;
+import fateczl.TrabalhoLabBd3.persistence.Pedido_PratoRepository;
+import fateczl.TrabalhoLabBd3.service.ClienteService;
 import fateczl.TrabalhoLabBd3.service.PedidoService;
 import fateczl.TrabalhoLabBd3.service.PratoService;
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +35,15 @@ public class PedidoController {
 	private PedidoService pedidoService;
 	@Autowired
 	private PratoService pratoService;
+	
+	@Autowired
+	private ClienteService clienteService;
+	
+	@Autowired
+	private PedidoRepository repPedido;
+	
+	@Autowired
+	private Pedido_PratoRepository repPedidoPrato;
 	
 	@ModelAttribute("pedido")
 	public Pedido criarPedido() {
@@ -81,5 +98,8 @@ public class PedidoController {
 		
 		return "novoPedido";
 	}
+	
+	
+
 	
 }
